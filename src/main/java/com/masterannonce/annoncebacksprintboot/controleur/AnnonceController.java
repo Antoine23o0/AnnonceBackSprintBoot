@@ -6,6 +6,7 @@ import com.masterannonce.annoncebacksprintboot.services.impls.AnnonceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("annonces")
+@RequestMapping("api/annonces")
 public class AnnonceController {
 
     private final AnnonceImpl annonceService;
@@ -53,6 +54,7 @@ public class AnnonceController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteAnnonce(@PathVariable int id) {
         annonceService.deleteAnnonce(id);
         return ResponseEntity.noContent().build();
